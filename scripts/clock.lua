@@ -1,6 +1,5 @@
 local Functions = require 'scripts.functions'
 local Gui = require 'scripts.gui'
-local f = string.format
 
 local clock_frame_name = Gui.uid_name('clock_frame')
 local settings_frame_name = Gui.uid_name('settings_frame')
@@ -14,9 +13,9 @@ local background_options = Functions.background_options
 local font_color_options = Functions.font_color_options
 local font_size_options = Functions.font_size_options
 local time_updates = Functions.time_updates
-local from_index = Functions.from_index
-local index_of = Functions.index_of
+local player_data = Functions.player_data
 local to_array = Functions.to_array
+local f = string.format
 
 local Clock = {}
 
@@ -30,12 +29,7 @@ Clock.draw_clock_frame = function(player)
     return
   end
 
-  local data = {
-    size = 40,
-    background = background_options.Dark,
-    font_color = font_color_options.White,
-    font = font_size_options.Default,
-  }
+  local data = player_data(player)
 
   frame = player.gui.screen.add {
     type = 'frame',
@@ -83,19 +77,21 @@ Clock.draw_clock_frame = function(player)
 end
 
 Clock.update_clock = function(player)
-  local data = storage.data[player.index]
-  if not data then
-    Clock.draw_clock_frame(player)
-    return
-  end
-
+  local data = player_data(player)
+  local ticks = game.tick
   local visible = false
+
   for key, callback in pairs(time_updates) do
-    local t = callback(game.tick)
+    local t = callback(ticks)
     local button = data[key]
-    button.caption = f('%02d', t)
-    button.visible = visible or (t > 0)
-    visible = button.visible
+    if button and button.valid then
+      button.caption = f('%02d', t)
+      button.visible = visible or (t > 0)
+      visible = button.visible
+    else
+      Clock.draw_clock_frame(player)
+      break
+    end
   end
 end
 
@@ -116,7 +112,7 @@ Clock.draw_settings_frame = function(player)
     .add { type = 'flow', direction = 'vertical' }
   Gui.set_style(canvas, { minimal_width = 100, minimal_height = 100, vertically_stretchable = true, horizontally_stretchable = true })
 
-  local function add_setting(parent, params)
+  local function add_setting(params)
     local flow = canvas.add { type = 'flow', direction = 'horizontal' }
     Gui.set_style(flow, { vertical_align = 'center', maximal_width = 467 })
 
@@ -128,7 +124,7 @@ Clock.draw_settings_frame = function(player)
     element.tooltip = params.value
   end
 
-  add_setting(canvas, {
+  add_setting({
     caption = {'clock.settings_size'},
     value = 40,
     element = {
@@ -140,7 +136,7 @@ Clock.draw_settings_frame = function(player)
       value = 40,
     }
   })
-  add_setting(canvas, {
+  add_setting({
     caption = {'clock.settings_font_size'},
     element = {
       type = 'drop-down',
@@ -149,7 +145,7 @@ Clock.draw_settings_frame = function(player)
       selected_index = 1,
     }
   })
-  add_setting(canvas, {
+  add_setting({
     caption = {'clock.settings_font_color'},
     element = {
       type = 'drop-down',
@@ -158,7 +154,7 @@ Clock.draw_settings_frame = function(player)
       selected_index = 1,
     }
   })
-  add_setting(canvas, {
+  add_setting({
     caption = {'clock.settings_background'},
     element = {
       type = 'drop-down',
@@ -181,10 +177,7 @@ Clock.toggle_settings_frame = function(player)
 end
 
 Clock.update_settings = function(player)
-  local data = storage.data[player.index]
-  if not data then
-    return
-  end
+  local data = player_data(player)
   for key, _ in pairs(time_updates) do
     local element = data[key]
     if element and element.valid then
@@ -204,34 +197,27 @@ end)
 
 Gui.on_value_changed(settings_size, function(event)
   local element, player = event.element, event.player
-  local data = storage.data[player.index]
   local size = element.slider_value
   element.tooltip = size
-  data.size = size
+  player_data(player).size = size
   Clock.update_settings(player)
 end)
 
 Gui.on_selection_state_changed(settings_font_size, function(event)
   local element, player = event.element, event.player
-  local data = storage.data[player.index]
-  local font = to_array(font_size_options)[element.selected_index]
-  data.font = font
+  player_data(player).font = to_array(font_size_options)[element.selected_index]
   Clock.update_settings(player)
 end)
 
 Gui.on_selection_state_changed(settings_font_color, function(event)
   local element, player = event.element, event.player
-  local data = storage.data[player.index]
-  local font_color = to_array(font_color_options)[element.selected_index]
-  data.font_color = font_color
+  player_data(player).font_color = to_array(font_color_options)[element.selected_index]
   Clock.update_settings(player)
 end)
 
 Gui.on_selection_state_changed(settings_background, function(event)
   local element, player = event.element, event.player
-  local data = storage.data[player.index]
-  local style = to_array(background_options)[element.selected_index]
-  data.background = style
+  player_data(player).background = to_array(background_options)[element.selected_index]
   Clock.update_settings(player)
 end)
 

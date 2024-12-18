@@ -69,4 +69,18 @@ F.index_of = function(dict, key)
   end
 end
 
+F.player_data = function(player)
+  local data = storage.data[player.index]
+  if not data then
+    data = {
+      size = 40,
+      background = F.background_options.Dark,
+      font_color = F.font_color_options.White,
+      font = F.font_size_options.Default,
+    }
+    storage.data[player.index] = data
+  end
+  return data
+end
+
 return F
