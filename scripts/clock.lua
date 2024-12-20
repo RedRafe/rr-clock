@@ -25,8 +25,8 @@ Clock.draw_clock_frame = function(player)
   end
 
   local frame = player.gui.screen[clock_frame_name]
-  if frame and frame.valid then
-    return
+  if frame then
+    Gui.destroy(frame)
   end
 
   local data = player_data(player)
