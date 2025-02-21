@@ -1,0 +1,17 @@
+{
+    "language-name": "English",
+    "font": {
+        "big-shoulders": ["__rr-clock__/fonts/big-shoulders.ttf"],
+        "digital": ["__rr-clock__/fonts/digital.ttf"],
+        "jet-brains": ["__rr-clock__/fonts/jet-brains.ttf"],
+        "technology-bold": ["__rr-clock__/fonts/technology-bold.ttf"],
+        "chakra-petch": ["__rr-clock__/fonts/chakra-petch.ttf"],
+        "display": ["__rr-clock__/fonts/display.ttf"],
+        "jura": ["__rr-clock__/fonts/jura.ttf"],
+        "technology": ["__rr-clock__/fonts/technology.ttf"],
+        "digital-mono": ["__rr-clock__/fonts/digital-mono.ttf"],
+        "electrolize": ["__rr-clock__/fonts/electrolize.ttf"],
+        "smooch-sans": ["__rr-clock__/fonts/smooch-sans.ttf"],
+        "zcool": ["__rr-clock__/fonts/zcool.ttf"]
+    }
+}

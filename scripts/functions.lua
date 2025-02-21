@@ -39,6 +39,54 @@ F.font_size_options = {
   ['Tiny'] = 'default-tiny-bold',
   ['Heading'] = 'heading-1',
   ['Dialog'] = 'default-dialog-button',
+
+  ['Big Shoulders'] = 'big-shoulders-1',
+  ['Big Shoulders Large'] = 'big-shoulders-2',
+  ['Big Shoulders Huge'] = 'big-shoulders-3',
+
+  ['Digital'] = 'digital-1',
+  ['Digital Large'] = 'digital-2',
+  ['Digital Huge'] = 'digital-3',
+
+  ['Jet Brains'] = 'jet-brains-1',
+  ['Jet Brains Large'] = 'jet-brains-2',
+  ['Jet Brains Huge'] = 'jet-brains-3',
+
+  ['Technology Bold'] = 'technology-bold-1',
+  ['Technology Bold Large'] = 'technology-bold-2',
+  ['Technology Bold Huge'] = 'technology-bold-3',
+
+  ['Chakra Petch'] = 'chakra-petch-1',
+  ['Chakra Petch Large'] = 'chakra-petch-2',
+  ['Chakra Petch Huge'] = 'chakra-petch-3',
+
+  ['Display'] = 'display-1',
+  ['Display Large'] = 'display-2',
+  ['Display Huge'] = 'display-3',
+
+  ['Jura'] = 'jura-1',
+  ['Jura Large'] = 'jura-2',
+  ['Jura Huge'] = 'jura-3',
+
+  ['Technology'] = 'technology-1',
+  ['Technology Large'] = 'technology-2',
+  ['Technology Huge'] = 'technology-3',
+
+  ['Digital Mono'] = 'digital-mono-1',
+  ['Digital Mono Large'] = 'digital-mono-2',
+  ['Digital Mono Huge'] = 'digital-mono-3',
+
+  ['Electrolize'] = 'electrolize-1',
+  ['Electrolize Large'] = 'electrolize-2',
+  ['Electrolize Huge'] = 'electrolize-3',
+
+  ['Smooch Sans'] = 'smooch-sans-1',
+  ['Smooch Sans Large'] = 'smooch-sans-2',
+  ['Smooch Sans Huge'] = 'smooch-sans-3',
+
+  ['Zcool'] = 'zcool-1',
+  ['Zcool Large'] = 'zcool-2',
+  ['Zcool Huge'] = 'zcool-3',
 }
 
 F.to_array = function(dict, use_keys)

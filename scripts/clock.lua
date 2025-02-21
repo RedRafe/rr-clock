@@ -120,7 +120,7 @@ Clock.draw_settings_frame = function(player)
     Gui.set_style(caption, { width = 120 })
 
     local element = flow.add(params.element)
-    Gui.set_style(element, { width = 120 })
+    Gui.set_style(element, { width = 220 })
     element.tooltip = params.value
   end
 
@@ -131,7 +131,7 @@ Clock.draw_settings_frame = function(player)
       type = 'slider',
       name = settings_size,
       minimum_value = 24,
-      maximum_value = 72,
+      maximum_value = 96,
       value_step = 2,
       value = 40,
     }
