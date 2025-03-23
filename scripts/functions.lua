@@ -4,6 +4,18 @@ local MINUTES = 60 * SECONDS
 local HOURS   = 60 * MINUTES
 local DAYS    = 24 * HOURS
 
+local split_string = function (inputstr, sep)
+  if sep == nil then
+    sep = '%s'
+  end
+  local t = {}
+  for str in string.gmatch(inputstr, '([^'..sep..']+)') 
+  do
+    table.insert(t, str)
+  end
+  return t
+end
+
 local F = {}
 
 F.time_updates = {
@@ -92,7 +104,7 @@ F.font_size_options = {
 F.to_array = function(dict, use_keys)
   local res = {}
   for k, v in pairs(dict) do
-    res[#res + 1] = use_keys and k or v
+    res[#res + 1] = (use_keys and k) or v
   end
   return res
 end
@@ -117,14 +129,23 @@ F.index_of = function(dict, key)
   end
 end
 
+F.array_index_of = function(array, value)
+  for i, v in pairs(array) do
+    if v == value then
+      return i
+    end
+  end
+end
+
 F.player_data = function(player)
   local data = storage.data[player.index]
   if not data then
+    local s = settings.get_player_settings(player)
     data = {
-      size = 40,
-      background = F.background_options.Dark,
-      font_color = F.font_color_options.White,
-      font = F.font_size_options.Default,
+      size = s['rrc-size'].value or 40,
+      background = F.background_options[s['rrc-background'].value] or F.background_options.Dark,
+      font_color = F.font_color_options[s['rrc-font_color'].value] or F.font_color_options.White,
+      font = F.font_size_options[s['rrc-font'].value] or F.font_size_options.Default,
     }
     storage.data[player.index] = data
   end

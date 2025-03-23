@@ -13,6 +13,7 @@ local background_options = Functions.background_options
 local font_color_options = Functions.font_color_options
 local font_size_options = Functions.font_size_options
 local time_updates = Functions.time_updates
+local array_index_of = Functions.array_index_of
 local player_data = Functions.player_data
 local to_array = Functions.to_array
 local f = string.format
@@ -74,6 +75,7 @@ Clock.draw_clock_frame = function(player)
   end
 
   storage.data[player.index] = data
+  Clock.update_settings(player)
 end
 
 Clock.update_clock = function(player)
@@ -100,6 +102,8 @@ Clock.draw_settings_frame = function(player)
   if frame and frame.valid then
     return frame
   end
+
+  local data = player_data(player)
 
   frame = Gui.add_closable_frame(player, {
     name = settings_frame_name,
@@ -133,7 +137,7 @@ Clock.draw_settings_frame = function(player)
       minimum_value = 24,
       maximum_value = 96,
       value_step = 2,
-      value = 40,
+      value = data.size,
     }
   })
   add_setting({
@@ -142,7 +146,7 @@ Clock.draw_settings_frame = function(player)
       type = 'drop-down',
       name = settings_font_size,
       items = to_array(font_size_options, true),
-      selected_index = 1,
+      selected_index = array_index_of(to_array(font_size_options, false), data.font),
     }
   })
   add_setting({
@@ -151,7 +155,7 @@ Clock.draw_settings_frame = function(player)
       type = 'drop-down',
       name = settings_font_color,
       items = to_array(font_color_options, true),
-      selected_index = 1,
+      selected_index = array_index_of(to_array(font_color_options, false), data.font_color),
     }
   })
   add_setting({
@@ -160,7 +164,7 @@ Clock.draw_settings_frame = function(player)
       type = 'drop-down',
       name = settings_background,
       items = to_array(background_options, true),
-      selected_index = 1,
+      selected_index = array_index_of(to_array(background_options, false), data.background),
     }
   })
 
